@@ -1,22 +1,35 @@
-import {Link, NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+// # We use NavLink when we want to highlight the current page user is on 
 
 export default function Header() {
   return (
     <header className=" bg-slate-800 ">
       <div className=" mx-auto container px-5 py-16">
-        <div className=" flex justify-between items-center">
+        <div className=" flex justify-between items-center">  
           <div>
             <img className="w-32" src="/logo.svg" alt="logotipo" />
           </div>
 
-          <nav className=' flex gap-4'>
-            <Link to="/" className=" text-white uppercase font-bold">
+          <nav className=" flex gap-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-orange-500 uppercase font-bold"
+                  : "text-white uppercase font-bold"
+              }
+            >
               Inicio
-            </Link>
+            </NavLink>
 
-            <Link to="/favorites" className=" text-white uppercase font-bold">
+            <NavLink
+              to="/favorites"
+              className={({isActive}) => (
+                isActive ? 'text-orange-500 uppercase font-bold' : 'text-white uppercase font-bold'
+              )}
+            >
               Favoritos
-            </Link>
+            </NavLink>
           </nav>
         </div>
       </div>
