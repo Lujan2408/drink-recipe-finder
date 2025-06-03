@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAppStore } from '../stores/useAppStore';
 // # We use NavLink when we want to highlight the current page user is on 
@@ -10,9 +10,10 @@ export default function Header() {
   const isHome = useMemo(() => pathname === "/" ,[pathname])
 
   // Zustand stores
+  // const categories = useAppStore(state => state.categories)
+  const { drinks } = useAppStore(state => state.categories)
   const fetchCategories = useAppStore(state => state.fetchCategories)
-  const categories = useAppStore(state => state.categories)
-  const { drinks } = categories
+  const searchRecipes = useAppStore(state => state.searchRecipes)
 
   // states 
   const [searchFilters, setSearchFilters] = useState({
@@ -30,6 +31,19 @@ export default function Header() {
       ...searchFilters,
       [e.target.name] : e.target.value 
     })
+  }
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    // TODO: Validate before submit the form
+    if(Object.values(searchFilters).includes('')) {
+      console.log('Los campos no pueden ir vacíos')
+      return
+    }
+
+    // Consult recipe 
+    searchRecipes(searchFilters)
   }
 
   return (
@@ -71,7 +85,10 @@ export default function Header() {
 
         {/* If we are on the home page we execute the following code */}
         {isHome && (
-          <form className="md:w-1/2 2xl:w-1/3 bg-orange-500 my-32 p-10 rounded-lg shadow space-y-6">
+          <form 
+            className="md:w-1/2 2xl:w-1/3 bg-orange-500 my-32 p-10 rounded-lg shadow space-y-6"
+            onSubmit={handleSubmit}
+          >
             <div className="space-y-4">
               <label
                 htmlFor="ingredient"
