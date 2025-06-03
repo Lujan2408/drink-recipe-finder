@@ -63,8 +63,8 @@ export default function Header() {
               to="/"
               className={({ isActive }) =>
                 isActive
-                  ? "text-orange-500 uppercase font-bold"
-                  : "text-white uppercase font-bold"
+                  ? "text-orange-500 uppercase font-bold bg-slate-50 p-2 rounded-full"
+                  : "text-white uppercase font-bold p-2 rounded-full"
               }
             >
               Inicio
@@ -74,8 +74,8 @@ export default function Header() {
               to="/favorites"
               className={({ isActive }) =>
                 isActive
-                  ? "text-orange-500 uppercase font-bold"
-                  : "text-white uppercase font-bold"
+                  ? "text-orange-500 uppercase font-bold bg-slate-50 p-2 rounded-full"
+                  : "text-white uppercase font-bold p-2 rounded-full"
               }
             >
               Favoritos
