@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CategoriesAPIResponseSchema } from "../schemas/recipe_schema"
+import { CategoriesAPIResponseSchema, RecipeAPISchema } from "../schemas/recipe_schema"
 import type { SearchFilter } from "../types"
 
 export async function getCategories () {
@@ -15,9 +15,11 @@ export async function getCategories () {
 }
 
 export async function getRecipes( filters: SearchFilter ) {
-  const INGREDIENT_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${filters.ingredient}`
-  const CATEGORY_URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filters.category}`
+  const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filters.category}&i=${filters.ingredient}`
 
-  const { data } = await axios.get(INGREDIENT_URL)
-  console.log(data) 
+  const { data } = await axios.get(URL)
+  const result = RecipeAPISchema.safeParse(data)
+  if(result.success) {
+    return result.data
+  }
 }
