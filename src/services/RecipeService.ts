@@ -1,6 +1,6 @@
 import axios from "axios"
-import { CategoriesAPIResponseSchema, RecipeAPISchema } from "../schemas/recipe_schema"
-import type { SearchFilter } from "../types"
+import { CategoriesAPIResponseSchema, RecipeAPIResponseSchema, RecipeAPISchema } from "../schemas/recipe_schema"
+import type { Drink, SearchFilter } from "../types"
 
 export async function getCategories () {
 
@@ -22,4 +22,16 @@ export async function getRecipes( filters: SearchFilter ) {
   if(result.success) {
     return result.data
   }
+}
+
+export async function getRecipeById ( id: Drink['idDrink'] ) {
+
+  const GET_BY_ID_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
+  const { data } = await axios.get(GET_BY_ID_URL)
+  
+  const result = RecipeAPIResponseSchema.safeParse(data.drinks[0])
+  if(result.success) {
+    return result.data
+  }
+
 }
