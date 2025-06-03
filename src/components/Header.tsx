@@ -1,13 +1,20 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom'
+import { useAppStore } from '../stores/useAppStore';
 // # We use NavLink when we want to highlight the current page user is on 
 
 export default function Header() {
 
   // const location = useLocation()
   const {pathname} = useLocation() // Destructuring of useLocation for using only the pathname
-
   const isHome = useMemo(() => pathname === "/" ,[pathname])
+
+  // Zustand stores
+  const fetchCategories = useAppStore(state => state.fetchCategories)
+
+  useEffect(() => {
+    fetchCategories()
+  },[])
 
   return (
     <header className={isHome ? 'bg-[url(/bg.jpg)] bg-center bg-cover' : 'bg-slate-800'}>
