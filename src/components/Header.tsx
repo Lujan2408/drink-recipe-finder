@@ -11,13 +11,19 @@ export default function Header() {
 
   // Zustand stores
   const fetchCategories = useAppStore(state => state.fetchCategories)
+  const categories = useAppStore(state => state.categories)
+  const { drinks } = categories
 
   useEffect(() => {
     fetchCategories()
   },[])
 
   return (
-    <header className={isHome ? 'bg-[url(/bg.jpg)] bg-center bg-cover' : 'bg-slate-800'}>
+    <header
+      className={
+        isHome ? "bg-[url(/bg.jpg)] bg-center bg-cover" : "bg-slate-800"
+      }
+    >
       <div className=" mx-auto container px-5 py-16">
         <div className=" flex justify-between items-center">
           <div>
@@ -74,7 +80,7 @@ export default function Header() {
                 htmlFor="ingredient"
                 className="block text-white font-extrabold uppercase text-lg"
               >
-                Categoría 
+                Categoría
               </label>
               {/* We use "name" to put it in the state in the future */}
               <select
@@ -83,10 +89,22 @@ export default function Header() {
                 className="p-3 w-full rounded-lg bg-white focus:outline-none font-medium"
               >
                 <option value="">-- Seleccione --</option>
+                {drinks.map((drinkCategory) => (
+                  <option 
+                    value={drinkCategory.strCategory} 
+                    key={drinkCategory.strCategory}
+                  >
+                    {drinkCategory.strCategory}
+                  </option>
+                ))}
               </select>
             </div>
 
-            <input type="submit" value="Buscar Recetas" className='cursor-pointer bg-orange-700 hover:bg-orange-800 text-white font-bold w-full p-2 rounded-lg uppercase'/>
+            <input
+              type="submit"
+              value="Buscar Recetas"
+              className="cursor-pointer bg-orange-700 hover:bg-orange-800 text-white font-bold w-full p-2 rounded-lg uppercase"
+            />
           </form>
         )}
       </div>
