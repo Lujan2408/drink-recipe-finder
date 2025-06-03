@@ -1,11 +1,11 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAppStore } from '../stores/useAppStore';
 // # We use NavLink when we want to highlight the current page user is on 
 
 export default function Header() {
 
-  // const location = useLocation()
+  // const location = useLocation() // hook to know where the use is on the page
   const {pathname} = useLocation() // Destructuring of useLocation for using only the pathname
   const isHome = useMemo(() => pathname === "/" ,[pathname])
 
@@ -14,9 +14,23 @@ export default function Header() {
   const categories = useAppStore(state => state.categories)
   const { drinks } = categories
 
+  // states 
+  const [searchFilters, setSearchFilters] = useState({
+    ingredient: '',
+    category: ''
+  })
+
   useEffect(() => {
     fetchCategories()
-  },[])
+  }, [fetchCategories])
+
+  // Function to write in the local search state
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    setSearchFilters({
+      ...searchFilters,
+      [e.target.name] : e.target.value 
+    })
+  }
 
   return (
     <header
@@ -70,6 +84,8 @@ export default function Header() {
                 type="text"
                 id="ingredient"
                 name="ingredient"
+                value={searchFilters.ingredient}
+                onChange={handleChange}
                 className="p-3 w-full rounded-lg bg-white focus:outline-none font-medium"
                 placeholder="Nombre o Ingrediente. Ej. Vodka, Tequila, Café"
               />
@@ -77,15 +93,17 @@ export default function Header() {
 
             <div className="space-y-4">
               <label
-                htmlFor="ingredient"
+                htmlFor="category"
                 className="block text-white font-extrabold uppercase text-lg"
               >
                 Categoría
               </label>
               {/* We use "name" to put it in the state in the future */}
               <select
-                id="ingredient"
-                name="ingredient"
+                id="category"
+                name="category"
+                value={searchFilters.category}
+                onChange={handleChange}
                 className="p-3 w-full rounded-lg bg-white focus:outline-none font-medium"
               >
                 <option value="">-- Seleccione --</option>
