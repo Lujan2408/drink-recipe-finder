@@ -6,6 +6,7 @@ export default function Modal() {
 
   const modal = useAppStore(state => state.modal)
   const closeModal = useAppStore(state => state.closeModal)
+  const informationRecipe = useAppStore(state => state.selectedRecipe)
   
   return (
     <>
@@ -34,16 +35,33 @@ export default function Modal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6" >
-                  <Dialog.Title as="h3" className="text-gray-900 text-4xl font-bold my-5 text-center">
-                      Titulo Aquí
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-gray-900 text-4xl font-bold my-5 text-center"
+                  >
+                    {informationRecipe.strDrink}
                   </Dialog.Title>
-                  <Dialog.Title as="h3" className="text-gray-900 text-2xl font-bold my-5">
+
+                  <img
+                    src={informationRecipe.strDrinkThumb}
+                    alt={`Imagen de ${informationRecipe.strDrink}`}
+                    className=' mx-auto w-96'
+                  />
+
+                  <Dialog.Title
+                    as="h3"
+                    className="text-gray-900 text-2xl font-semibold my-5"
+                  >
                     Ingredientes y Cantidades
                   </Dialog.Title>
-                  <Dialog.Title as="h3" className="text-gray-900 text-2xl font-bold my-5">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-gray-900 text-2xl font-semibold my-5"
+                  >
                     Instrucciones
                   </Dialog.Title>
+                  <p className='text-lg'>{informationRecipe.strInstructions}</p>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -51,5 +69,5 @@ export default function Modal() {
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }
