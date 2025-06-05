@@ -5,10 +5,12 @@ import type { Recipe } from '../types';
 
 export default function Modal() {
 
-  const modal = useAppStore(state => state.modal)
-  const closeModal = useAppStore(state => state.closeModal)
-  const selectedRecipe = useAppStore(state => state.selectedRecipe)
-  
+  const modal = useAppStore((state) => state.modal);
+  const closeModal = useAppStore((state) => state.closeModal);
+  const selectedRecipe = useAppStore((state) => state.selectedRecipe);
+  const { handleClickFavorite } = useAppStore(); 
+  const { favoriteExists } = useAppStore();
+
   const renderIngredients = () => {
     const ingredients : JSX.Element[] = []
     for (let i = 1; i <= 6; i++) {
@@ -95,7 +97,8 @@ export default function Modal() {
                   <button 
                       type='button' 
                       className='w-full rounded bg-orange-600 p-3 font-semibold uppercase text-white shadow hover:bg-orange-500 cursor-pointer'  
-                    >Agregar a Favoritos</button>
+                      onClick={() => handleClickFavorite(selectedRecipe)}
+                    >{favoriteExists(selectedRecipe.idDrink) ? 'Eliminar Favorito' : 'Añadir a Favoritos'}</button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
