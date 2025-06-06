@@ -1,6 +1,7 @@
 import { type StateCreator } from 'zustand' 
 import type { Recipe } from '../types'
 import { createRecipeSlice, type RecipeSliceTypes } from './recipeSlice'
+import { createNotificationSlice, type NotificationSliceType } from './notificationSlice'
 
 export type FavoritesSliceType = {
   favorites: Recipe[],
@@ -10,23 +11,34 @@ export type FavoritesSliceType = {
 }
 
 // Nesting the types of the slices, we use empty array to indicate that we are not using parameters. This helps us to connect two slices or more
-export const createFavoritesSlice : StateCreator<FavoritesSliceType & RecipeSliceTypes, [], [], FavoritesSliceType> = (set, get, api) => ({
+export const createFavoritesSlice : StateCreator<
+    FavoritesSliceType & RecipeSliceTypes & NotificationSliceType, [], [], FavoritesSliceType
+  > = (set, get, api) => ({
   favorites: [],
 
   handleClickFavorite: (recipe) => {
-    // "get" allows us to access the state
     // we evaluate if favorite exists 
+    // if it exists we delete the element of the state
+    // filter is an array method that returns a new array with all elements that pass the test, in this case, we are filtering out the recipe that we are clicking on
     if(get().favoriteExists(recipe.idDrink)) {
       set((state) => ({
-        // if it exists we delete the element of the state
-        // filter is an array method that returns a new array with all elements that pass the test, in this case, we are filtering out the recipe that we are clicking on
         favorites: state.favorites.filter( favorite => favorite.idDrink !== recipe.idDrink)
       }))
+      // create notification 
+      createNotificationSlice(set, get, api).showNotification({
+        text: 'Se eliminó de Favoritos',
+        error: false
+      })
     } else {
       // we access to the favorite state, and then we add the current recipe
       set ((state) => ({
         favorites: [ ...state.favorites, recipe ],
       }))
+      // create notification 
+      createNotificationSlice(set, get, api).showNotification({
+        text: 'Se agregó a Favoritos',
+        error: false
+      })
     }
     createRecipeSlice(set, get, api).closeModal()
     // set the item to add to localStorage 
