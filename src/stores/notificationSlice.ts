@@ -14,6 +14,6 @@ export const createNotificationSlice: StateCreator<NotificationSliceType> = (set
   notification: {
     text: '',
     error: false, 
-    show: false
+    show: true
   }
 }) 
