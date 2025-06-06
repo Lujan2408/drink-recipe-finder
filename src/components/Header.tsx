@@ -14,6 +14,7 @@ export default function Header() {
   const { drinks } = useAppStore(state => state.categories)
   const fetchCategories = useAppStore(state => state.fetchCategories)
   const searchRecipes = useAppStore(state => state.searchRecipes)
+  const showNotification = useAppStore(state => state.showNotification)
 
   // states 
   const [searchFilters, setSearchFilters] = useState({
@@ -38,7 +39,10 @@ export default function Header() {
 
     // TODO: Validate before submit the form
     if(Object.values(searchFilters).includes('')) {
-      console.log('Los campos no pueden ir vacíos')
+      showNotification({
+        text: 'Todos los campos son obligatorios',
+        error: true
+      })
       return
     }
 
@@ -115,7 +119,6 @@ export default function Header() {
               >
                 Categoría
               </label>
-              {/* We use "name" to put it in the state in the future */}
               <select
                 id="category"
                 name="category"

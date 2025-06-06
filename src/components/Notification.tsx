@@ -29,6 +29,7 @@ export default function Notification() {
             <div className="p-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
+                  {/* Validate if notification.error is true, if it is, we show the XCircleIcon, otherwise we show the CheckCircleIcon */}
                   {notification.error ? (
                     <> 
                     <XCircleIcon
