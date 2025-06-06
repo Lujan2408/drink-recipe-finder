@@ -1,5 +1,6 @@
 import { type StateCreator } from 'zustand' 
 import type { Recipe } from '../types'
+import { createRecipeSlice, type RecipeSliceTypes } from './recipeSlice'
 
 export type FavoritesSliceType = {
   favorites: Recipe[],
@@ -8,7 +9,8 @@ export type FavoritesSliceType = {
   loadFromLocalStorage: () => void
 }
 
-export const createFavoritesSlice : StateCreator<FavoritesSliceType> = (set, get) => ({
+// Nesting the types of the slices, we use empty array to indicate that we are not using parameters. This helps us to connect two slices or more
+export const createFavoritesSlice : StateCreator<FavoritesSliceType & RecipeSliceTypes, [], [], FavoritesSliceType> = (set, get, api) => ({
   favorites: [],
 
   handleClickFavorite: (recipe) => {
@@ -26,6 +28,7 @@ export const createFavoritesSlice : StateCreator<FavoritesSliceType> = (set, get
         favorites: [ ...state.favorites, recipe ],
       }))
     }
+    createRecipeSlice(set, get, api).closeModal()
     // set the item to add to localStorage 
     localStorage.setItem('favorites', JSON.stringify(get().favorites))
   },

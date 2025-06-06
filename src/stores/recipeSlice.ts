@@ -1,6 +1,7 @@
 import { type StateCreator } from 'zustand' 
 import { getCategories, getRecipes, getRecipeById } from '../services/RecipeService'
 import type { Categories, Drink, DrinkRecipe, Recipe, SearchFilter } from '../types'
+import type { FavoritesSliceType } from './favoritesSlice'
 
 export type RecipeSliceTypes = {
   categories: Categories,
@@ -13,7 +14,8 @@ export type RecipeSliceTypes = {
   closeModal: () => void
 }
 
-export const createRecipeSlice: StateCreator<RecipeSliceTypes> = (set) => ({
+// Nesting the types of the slices, we use empty array to indicate that we are not using parameters. This helps us to connect two slices or more
+export const createRecipeSlice: StateCreator<RecipeSliceTypes & FavoritesSliceType, [], [], RecipeSliceTypes> = (set) => ({
   categories: {
     drinks: []
   },
