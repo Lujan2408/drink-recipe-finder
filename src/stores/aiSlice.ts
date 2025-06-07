@@ -22,8 +22,8 @@ export const createAISlice : StateCreator<AISlice> = (set) => ({
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
-        systemInstruction: "Eres bartender experto en toda clase de bebidas. Amigable con los clientes pero consiso en tus respuestas",
-        temperature: 1.0
+        systemInstruction: "Eres bartender experto en toda clase de bebidas. Amigable con los clientes, tus respuestas son con detalle de la receta de la bebida, la respuesta debe ser entendida por cualquier persona",
+        temperature: 0.0
       }
     })
   
