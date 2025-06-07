@@ -18,7 +18,7 @@ export default function GenerateAI() {
     const prompt = form.get("prompt") as string
 
     if (prompt.trim() === "") {
-      setError("La consulta no Puede ir Vacía")
+      setError("La consulta no puede ir vacía")
       return; 
     }
 
